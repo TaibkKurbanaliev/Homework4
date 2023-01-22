@@ -7,20 +7,15 @@ public class Player : MonoBehaviour
     public int Health { get; private set; } = 100;
 
     private int _maxHealth = 100;
+    private int _minHealth = 0;
 
     public void TakeDamage(int damage)
     {
-        if (Health - damage >= 0)
-        {
-            Health -= damage;
-        }
+        Health = Mathf.Clamp(Health - damage, _minHealth, _maxHealth);
     }
 
     public void Heal(int numberOfHeal)
     {
-        if (Health + numberOfHeal <= _maxHealth)
-        {
-            Health += numberOfHeal;
-        }
+        Health = Mathf.Clamp(Health + numberOfHeal, _minHealth, _maxHealth);
     }
 }
