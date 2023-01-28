@@ -15,14 +15,15 @@ public class HealthBar : MonoBehaviour
 
     private void OnEnable()
     {
-        _player.OnHealthChange += OnHealthChanged;
-    }
-    private void OnDisable()
-    {
-        _player.OnHealthChange -= OnHealthChanged;
+        _player.HealthChanged += OnHealthChange;
     }
 
-    private void OnHealthChanged(int health)
+    private void OnDisable()
+    {
+        _player.HealthChanged -= OnHealthChange;
+    }
+
+    private void OnHealthChange(int health)
     {
         if (_isFinished)
             StartCoroutine(ChangeValue(health));
