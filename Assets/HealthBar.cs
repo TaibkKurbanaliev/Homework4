@@ -11,6 +11,8 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Slider _healthBar;
     [SerializeField] private float _fillSpeed;
 
+    private bool _isFinished = true;
+
     private void OnEnable()
     {
         _player.OnHealthChange += OnHealthChanged;
@@ -22,15 +24,20 @@ public class HealthBar : MonoBehaviour
 
     private void OnHealthChanged(int health)
     {
-        StartCoroutine(ChangeValue(health));
+        if (_isFinished)
+            StartCoroutine(ChangeValue(health));
     }
 
     private IEnumerator ChangeValue(int targetValue)
     {
+        _isFinished = false;
+
         while (_healthBar.value != targetValue)
         {
-            _healthBar.value = Mathf.MoveTowards(_healthBar.value, _player.Health, _fillSpeed * Time.deltaTime);
+            _healthBar.value = Mathf.MoveTowards(_healthBar.value, targetValue, _fillSpeed * Time.deltaTime);
             yield return null;
         }
+
+        _isFinished = true;
     }
 }
